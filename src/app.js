@@ -23,12 +23,10 @@ app.use(
     allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
+app.options("*", cors());
 
-/**
- * ⚠️ IMPORTANT
- * DO NOT use app.options("*", ...)
- * Express v5 + path-to-regexp crash hota hai
- */
+
+app.use(express.urlencoded({ extended: true }));
 app.use("/blog", blogRoutes);
 
 app.use(express.json());
