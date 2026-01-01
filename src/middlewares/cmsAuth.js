@@ -1,7 +1,3 @@
-/**
- * CMS Auth Middleware
- * Checks if cms_auth cookie exists
- */
 export default function cmsAuth(req, res, next) {
     const cookieHeader = req.headers.cookie || "";
   
