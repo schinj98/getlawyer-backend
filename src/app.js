@@ -8,6 +8,7 @@ import cmsRoutes from "./routes/cms.routes.js";
 
 const app = express();
 
+
 /* -------------------- CORS (TOP MOST) -------------------- */
 app.use(
   cors({
