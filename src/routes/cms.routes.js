@@ -1,10 +1,9 @@
 import express from "express";
-import { publish } from "../controllers/cms.controller.js";
-import { cmsAuth } from "../middlewares/cmsAuth.js";
-
+import publish from "../cms/publish/route.js";
+import cmsAuth from "../middlewares/cmsAuth.js";
 
 const router = express.Router();
 
-router.post("/cms/publish", cmsAuth, publish);
+router.post("/publish", cmsAuth, publish.POST);
 
 export default router;

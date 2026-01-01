@@ -27,11 +27,14 @@ export const login = async (req, res) => {
   
     // cookie set (Express way)
     res.cookie("cms_auth", "true", {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "lax",
-      maxAge: 1000 * 60 * 60 * 6, // 6 hours
-    });
+        httpOnly: true,
+        secure: true,              // HTTPS mandatory
+        sameSite: "none",          // 🔥 cross-subdomain
+        domain: ".getlawyer.me",   // 🔥 VERY IMPORTANT
+        path: "/",
+        maxAge: 6 * 60 * 60 * 1000 // 6 hours
+      });
+      
   
     return res.json({ success: true });
   };

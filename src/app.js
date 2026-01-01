@@ -1,5 +1,6 @@
 import express from "express";
 import cors from "cors";
+import blogRoutes from "./routes/blog.routes.js";
 
 import leadRoutes from "./routes/lead.routes.js";
 import authRoutes from "./routes/auth.routes.js";
@@ -28,6 +29,7 @@ app.use(
  * DO NOT use app.options("*", ...)
  * Express v5 + path-to-regexp crash hota hai
  */
+app.use("/blog", blogRoutes);
 
 app.use(express.json());
 
