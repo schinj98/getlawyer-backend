@@ -4,6 +4,8 @@ node_modules/
 # env files
 .env
 .env.*
+node_modules
+
 
 # logs
 logs
