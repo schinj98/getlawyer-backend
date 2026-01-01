@@ -8,6 +8,8 @@ const router = express.Router();
  */
 router.get("/", async (req, res) => {
   try {
+    res.set("Cache-Control", "no-store"); // 🔥 ADD THIS
+
     const limit = parseInt(req.query.limit) || 10;
     const offset = parseInt(req.query.offset) || 0;
 
@@ -35,5 +37,3 @@ router.get("/", async (req, res) => {
     res.status(500).json({ message: "Failed to fetch blogs" });
   }
 });
-
-export default router;
