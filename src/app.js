@@ -6,7 +6,7 @@ import leadRoutes from "./routes/lead.routes.js";
 import authRoutes from "./routes/auth.routes.js";
 import cmsRoutes from "./routes/cms.routes.js";
 
-const app = express;
+const app = express();
 
 /* -------------------- CORS (TOP MOST) -------------------- */
 app.use(
