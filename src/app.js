@@ -18,6 +18,6 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/blog", blogRoutes);
 app.use(leadRoutes);
 app.use(authRoutes);
-app.use(cmsRoutes);
+app.use("/cms", cmsRoutes);
 
 export default app;
