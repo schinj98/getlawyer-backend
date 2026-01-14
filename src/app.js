@@ -10,7 +10,7 @@ const app = express();
 /* -------------------- BODY PARSERS -------------------- */
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
+app.set("trust proxy", 1);
 /* -------------------- ROUTES -------------------- */
 app.use("/blog", blogRoutes);
 app.use(leadRoutes);
