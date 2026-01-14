@@ -45,13 +45,19 @@ export async function publish(req, res) {
 /* ---------------- ADMIN LIST ---------------- */
 export async function adminGetAllBlogs(req, res) {
   const { rows } = await db.query(`
-    SELECT id, title, slug, author, date_added
+    SELECT 
+      id,
+      title,
+      slug,
+      author,
+      date_added AS "dateAdded"
     FROM blogs
     ORDER BY id DESC
   `);
 
   res.json(rows);
 }
+
 
 /* ---------------- DELETE (BLOCKED) ---------------- */
 export async function adminDeleteBlog(req, res) {
