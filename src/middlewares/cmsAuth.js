@@ -1,4 +1,4 @@
-export default function cmsAuth(req, res, next) {
+export function cmsAuth(req, res, next) {
     const cookieHeader = req.headers.cookie || "";
   
     if (!cookieHeader.includes("cms_auth=true")) {
