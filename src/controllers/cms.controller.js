@@ -1,5 +1,6 @@
 import db from "../../lib/db.js";
 
+/* ---------------- PUBLISH ---------------- */
 export async function publish(req, res) {
   try {
     const body = req.body;
@@ -8,14 +9,15 @@ export async function publish(req, res) {
       return res.json({ message: "Draft saved" });
     }
 
-    await db.run(
+    await db.query(
       `
       INSERT INTO blogs (
         slug, title, description, content,
         tags, author, category,
-        starRating, starTotalRating,
-        likes, dateAdded, faqs
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        star_rating, star_total_rating,
+        likes, date_added, faqs
+      )
+      VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12)
       `,
       [
         body.slug,
@@ -40,62 +42,63 @@ export async function publish(req, res) {
   }
 }
 
+/* ---------------- ADMIN LIST ---------------- */
 export async function adminGetAllBlogs(req, res) {
-  const blogs = await db.all(`
-    SELECT id, title, slug, author, dateAdded
+  const { rows } = await db.query(`
+    SELECT id, title, slug, author, date_added
     FROM blogs
     ORDER BY id DESC
   `);
 
-  res.json(blogs);
+  res.json(rows);
 }
+
+/* ---------------- DELETE (BLOCKED) ---------------- */
 export async function adminDeleteBlog(req, res) {
   console.error("🚨 DELETE ATTEMPT BLOCKED", req.params.id);
-
   return res.status(403).json({
     success: false,
     message: "Delete is disabled in production",
   });
 }
 
+/* ---------------- GET BY ID ---------------- */
 export async function adminGetBlogById(req, res) {
-  const { id } = req.params;
-
-  const blog = await db.get(
-    `SELECT * FROM blogs WHERE id = ?`,
-    [id]
+  const { rows } = await db.query(
+    `SELECT * FROM blogs WHERE id = $1`,
+    [req.params.id]
   );
 
-  if (!blog) {
+  if (!rows.length) {
     return res.status(404).json({ message: "Blog not found" });
   }
 
-  // JSON fields parse
+  const blog = rows[0];
   blog.tags = JSON.parse(blog.tags || "[]");
   blog.faqs = JSON.parse(blog.faqs || "[]");
 
   res.json(blog);
 }
 
+/* ---------------- UPDATE ---------------- */
 export async function adminUpdateBlog(req, res) {
-  const { id } = req.params;
   const body = req.body;
 
-  await db.run(
+  await db.query(
     `
     UPDATE blogs SET
-      slug = ?,
-      title = ?,
-      description = ?,
-      content = ?,
-      tags = ?,
-      author = ?,
-      category = ?,
-      starRating = ?,
-      starTotalRating = ?,
-      likes = ?,
-      faqs = ?
-    WHERE id = ?
+      slug=$1,
+      title=$2,
+      description=$3,
+      content=$4,
+      tags=$5,
+      author=$6,
+      category=$7,
+      star_rating=$8,
+      star_total_rating=$9,
+      likes=$10,
+      faqs=$11
+    WHERE id=$12
     `,
     [
       body.slug,
@@ -109,7 +112,7 @@ export async function adminUpdateBlog(req, res) {
       body.starTotalRating,
       body.likes,
       JSON.stringify(body.faqs || []),
-      id,
+      req.params.id,
     ]
   );
 
