@@ -50,12 +50,14 @@ export async function adminGetAllBlogs(req, res) {
   res.json(blogs);
 }
 export async function adminDeleteBlog(req, res) {
-  const { id } = req.params;
+  console.error("🚨 DELETE ATTEMPT BLOCKED", req.params.id);
 
-  await db.run(`DELETE FROM blogs WHERE id = ?`, [id]);
-
-  res.json({ success: true, message: "Blog deleted" });
+  return res.status(403).json({
+    success: false,
+    message: "Delete is disabled in production",
+  });
 }
+
 export async function adminGetBlogById(req, res) {
   const { id } = req.params;
 
