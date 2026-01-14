@@ -8,3 +8,4 @@ router.use("/list", listRouter);
 router.use("/", slugRoutes);
 
 export default router;
+  
