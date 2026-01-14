@@ -34,8 +34,12 @@ export const login = async (req, res) => {
         path: "/",
         maxAge: 6 * 60 * 60 * 1000 // 6 hours
       });
+      res.cookie("cms_role", user.role, {
+        httpOnly: true,
+        sameSite: "lax",
+      });
       
   
-    return res.json({ success: true });
+    return res.json({ success: true, role: user.role, });
   };
   

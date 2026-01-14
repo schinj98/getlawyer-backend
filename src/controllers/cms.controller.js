@@ -39,3 +39,20 @@ export async function publish(req, res) {
     res.status(500).json({ message: "Publish failed" });
   }
 }
+
+export async function adminGetAllBlogs(req, res) {
+  const blogs = await db.all(`
+    SELECT id, title, slug, author, dateAdded
+    FROM blogs
+    ORDER BY id DESC
+  `);
+
+  res.json(blogs);
+}
+export async function adminDeleteBlog(req, res) {
+  const { id } = req.params;
+
+  await db.run(`DELETE FROM blogs WHERE id = ?`, [id]);
+
+  res.json({ success: true, message: "Blog deleted" });
+}
