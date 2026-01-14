@@ -1,5 +1,7 @@
 import express from "express";
-import { publish, adminGetAllBlogs, adminDeleteBlog } from "../controllers/cms.controller.js";
+import { publish, adminGetAllBlogs, adminDeleteBlog ,
+    adminGetBlogById,
+    adminUpdateBlog} from "../controllers/cms.controller.js";
 import { cmsAuth, adminOnly } from "../middlewares/cmsAuth.js";
 
 const router = express.Router();
@@ -22,5 +24,17 @@ router.delete(
   adminOnly,
   adminDeleteBlog
 );
+router.get(
+    "/admin/blog/:id",
+    cmsAuth,
+    adminOnly,
+    adminGetBlogById
+);
 
+router.put(
+    "/admin/blog/:id",
+    cmsAuth,
+    adminOnly,
+    adminUpdateBlog
+);
 export default router;
