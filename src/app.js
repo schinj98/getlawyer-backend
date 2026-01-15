@@ -9,37 +9,32 @@ import cmsRoutes from "./routes/cms.routes.js";
 
 
 const app = express();
-app.get("/health", (req, res) => {
-    res.json({ ok: true });
-  });
-  app.get("/health", (req, res) => {
-  res.json({ ok: true });
-});
+
 app.set("trust proxy", 1);
 const allowedOrigins = [
-  "https://www.getlawyer.me",
-  "http://localhost:3000"
-];
+    "http://localhost:3000",
+    "https://www.getlawyer.me",
+  ];
 app.use(cors());
 
-// app.use(
-//     cors({
-//         origin: function (origin, callback) {
-//         // allow server-to-server & Postman
-//         if (!origin) return callback(null, true);
+app.use(
+    cors({
+        origin: function (origin, callback) {
+        // allow server-to-server & Postman
+        if (!origin) return callback(null, true);
 
-//         if (allowedOrigins.includes(origin)) {
-//             return callback(null, true);
-//         }
+        if (allowedOrigins.includes(origin)) {
+            return callback(null, true);
+        }
 
-//         return callback(new Error("CORS not allowed"));
-//         },
-//         credentials: true,
-//         methods: ["GET", "POST", "PUT", "DELETE"],
-//         allowedHeaders: ["Content-Type", "Authorization"],
-//     })
-// );
-// app.options("*", cors());
+        return callback(new Error("CORS not allowed"));
+        },
+        credentials: true,
+        methods: ["GET", "POST", "PUT", "DELETE"],
+        allowedHeaders: ["Content-Type", "Authorization"],
+    })
+);
+app.options("*", cors());
 /* -------------------- BODY PARSERS -------------------- */
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
