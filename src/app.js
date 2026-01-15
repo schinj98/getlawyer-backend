@@ -1,3 +1,10 @@
+app.get("/health", (req, res) => {
+    res.json({ ok: true });
+  });
+  app.get("/health", (req, res) => {
+  res.json({ ok: true });
+});
+
 import express from "express";
 import cors from "cors";
 import blogRoutes from "./routes/blog.routes.js";
