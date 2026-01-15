@@ -16,6 +16,6 @@ app.get("/health", (req, res) => {
   res.send("OK");
 });
 
-app.listen(5050, "0.0.0.0", () => {
-  console.log("✅ MINIMAL EXPRESS WORKING");
+app.listen(5050, "127.0.0.1", () => {
+  console.log("🚀 IPv4 ONLY server running on 127.0.0.1:5050");
 });
