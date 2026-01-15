@@ -1,9 +1,4 @@
-app.get("/health", (req, res) => {
-    res.json({ ok: true });
-  });
-  app.get("/health", (req, res) => {
-  res.json({ ok: true });
-});
+
 
 import express from "express";
 import cors from "cors";
@@ -14,6 +9,12 @@ import cmsRoutes from "./routes/cms.routes.js";
 
 
 const app = express();
+app.get("/health", (req, res) => {
+    res.json({ ok: true });
+  });
+  app.get("/health", (req, res) => {
+  res.json({ ok: true });
+});
 app.set("trust proxy", 1);
 const allowedOrigins = [
   "https://www.getlawyer.me",
