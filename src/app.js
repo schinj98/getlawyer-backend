@@ -25,11 +25,11 @@ app.use(
         return callback(new Error("CORS not allowed"));
         },
         credentials: true,
-        methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+        methods: ["GET", "POST", "PUT", "DELETE"],
         allowedHeaders: ["Content-Type", "Authorization"],
     })
 );
-app.options("*", cors());
+// app.options("*", cors());
 /* -------------------- BODY PARSERS -------------------- */
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
