@@ -12,33 +12,38 @@ app.set("trust proxy", 1);
 const allowedOrigins = [
   "http://localhost:3000",
   "https://www.getlawyer.me",
-  "https://getlawyer.me", // Add this - without www
+  "https://getlawyer.me",
 ];
 
-// REMOVE the first app.use(cors()) - only use ONE cors middleware
-app.use(
-  cors({
-    origin: function (origin, callback) {
-      // Allow requests with no origin (like mobile apps, Postman, server-to-server)
-      if (!origin) return callback(null, true);
+/* -------------------- MANUAL CORS HANDLING -------------------- */
+// This prevents duplicate headers by manually setting them
+app.use((req, res, next) => {
+  const origin = req.headers.origin;
 
-      if (allowedOrigins.includes(origin)) {
-        return callback(null, true);
-      }
+  // Check if origin is allowed
+  if (!origin || allowedOrigins.includes(origin)) {
+    // Only set if not already set (prevents duplicates)
+    if (!res.getHeader('Access-Control-Allow-Origin')) {
+      res.setHeader('Access-Control-Allow-Origin', origin || allowedOrigins[0]);
+    }
+    if (!res.getHeader('Access-Control-Allow-Credentials')) {
+      res.setHeader('Access-Control-Allow-Credentials', 'true');
+    }
+    if (!res.getHeader('Access-Control-Allow-Methods')) {
+      res.setHeader('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE,PATCH,OPTIONS');
+    }
+    if (!res.getHeader('Access-Control-Allow-Headers')) {
+      res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    }
+  }
 
-      // Better error message for debugging
-      console.log(`❌ CORS blocked origin: ${origin}`);
-      return callback(new Error(`CORS not allowed for origin: ${origin}`));
-    },
-    credentials: true,
-    methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization", "Cookie"],
-    exposedHeaders: ["Set-Cookie"],
-  })
-);
+  // Handle preflight
+  if (req.method === 'OPTIONS') {
+    return res.status(204).end();
+  }
 
-// Handle preflight requests
-app.options("*", cors());
+  next();
+});
 
 /* -------------------- BODY PARSERS -------------------- */
 app.use(express.json());
