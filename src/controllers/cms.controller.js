@@ -50,6 +50,7 @@ export async function adminGetAllBlogs(req, res) {
       title,
       slug,
       author,
+      category,
       date_added AS "dateAdded"
     FROM blogs
     ORDER BY id DESC
