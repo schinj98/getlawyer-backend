@@ -1,7 +1,7 @@
 import express from "express";
 import { publish, adminGetAllBlogs, adminDeleteBlog ,
     adminGetBlogById,
-    adminUpdateBlog} from "../controllers/cms.controller.js";
+    adminUpdateBlog, getFirstThree} from "../controllers/cms.controller.js";
 import { cmsAuth, adminOnly } from "../middlewares/cmsAuth.js";
 
 const router = express.Router();
