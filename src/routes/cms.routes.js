@@ -17,6 +17,14 @@ router.get(
   adminGetAllBlogs
 );
 
+// ✅ GET /cms/admin/latestThree
+router.get(
+  "/admin/latest-blogs",
+  cmsAuth,
+  adminOnly,
+  getFirstThree
+);
+
 // ✅ DELETE /cms/admin/blog/:id
 router.delete(
   "/admin/blog/:id",
