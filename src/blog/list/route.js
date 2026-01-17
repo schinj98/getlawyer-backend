@@ -53,9 +53,13 @@ router.get("/latest", async (req, res) => {
         id,
         slug,
         title,
+        tags,
         description,
         author,
         category,
+        star_rating   AS "starRating",
+        star_total_rating AS "starTotalRating",
+        likes,
         date_added AS "dateAdded"
       FROM blogs
       ORDER BY date_added DESC
