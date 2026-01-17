@@ -45,4 +45,29 @@ router.get("/", async (req, res) => {
   }
 });
 
+// GET /blogs/latest
+router.get("/latest", async (req, res) => {
+  try {
+    const { rows } = await db.query(`
+      SELECT 
+        id,
+        slug,
+        title,
+        description,
+        author,
+        category,
+        date_added AS "dateAdded"
+      FROM blogs
+      ORDER BY date_added DESC
+      LIMIT 3
+    `);
+
+    res.json(rows);
+  } catch (err) {
+    console.error("❌ LATEST BLOGS ERROR:", err);
+    res.status(500).json({ message: "Failed to fetch latest blogs" });
+  }
+});
+
+
 export default router;

@@ -60,29 +60,7 @@ export async function adminGetAllBlogs(req, res) {
 }
 
 
-/* ---------------- GET TOP 3 LATEST BLOGS FOR LANDING PAGE ---------------- */
-export async function getFirstThree(req, res) {
-  try {
-    const { rows } = await db.query(`
-      SELECT 
-        id,
-        title,
-        slug,
-        description,
-        author,
-        category,
-        date_added AS "dateAdded"
-      FROM blogs
-      ORDER BY date_added DESC
-      LIMIT 3
-    `);
 
-    res.json(rows);
-  } catch (err) {
-    console.error("Get first three blogs error:", err);
-    res.status(500).json({ message: "Failed to fetch blogs" });
-  }
-}
 
 
 

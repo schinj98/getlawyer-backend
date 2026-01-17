@@ -1,7 +1,7 @@
 import express from "express";
 import { publish, adminGetAllBlogs, adminDeleteBlog ,
     adminGetBlogById,
-    adminUpdateBlog, getFirstThree} from "../controllers/cms.controller.js";
+    adminUpdateBlog} from "../controllers/cms.controller.js";
 import { cmsAuth, adminOnly } from "../middlewares/cmsAuth.js";
 
 const router = express.Router();
@@ -17,13 +17,6 @@ router.get(
   adminGetAllBlogs
 );
 
-// ✅ GET /cms/admin/latestThree
-router.get(
-  "/admin/latest-blogs",
-  cmsAuth,
-  adminOnly,
-  getFirstThree
-);
 
 // ✅ DELETE /cms/admin/blog/:id
 router.delete(
